@@ -7,7 +7,7 @@
  * # serviceAjax
  * Factory in the cineAngularApp.
  */
-angular.module('coursExoApp')
+angular.module('cineAngularApp')
 .factory('serviceAjax', function serviceAjax($http) {
   return{
     popular: function(page){
