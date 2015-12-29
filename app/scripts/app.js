@@ -36,6 +36,6 @@ angular
         controllerAs: 'popular'
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/popular'
       });
   });
