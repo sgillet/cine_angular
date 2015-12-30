@@ -8,19 +8,21 @@
  * Controller of the cineAngularApp
  */
 angular.module('cineAngularApp')
-  .controller('PopularCtrl', function ($scope, serviceAjax) {
-        $scope.currentPage = 1;
-        $scope.totalPages = 0;
-        var loadMovies = function(){
-            $scope.loading = true;
-            serviceAjax.popular($scope.currentPage).success(function(data){
-                $scope.movies = data.results;
-                $scope.totalPages = data.total_pages;
-                $scope.loading = false;
+  .controller('PopularCtrl', function (serviceAjax) {
+        this.currentPage = 1;
+        this.totalPages = 0;
+        this.movies = [];
+        this.loadMovies = function(){
+            var _this = this;
+            this.loading = true;
+            serviceAjax.popular(this.currentPage).success(function(data){
+                _this.movies = data.results;
+                _this.totalPages = data.total_pages;
+                _this.loading = false;
             });
         };
-        $scope.pageChanged = function(){
-            loadMovies();
+        this.pageChanged = function(){
+            this.loadMovies();
         };
-        loadMovies();
+        this.loadMovies();
   });

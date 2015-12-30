@@ -1,23 +1,35 @@
 'use strict';
 
-describe('Controller: PopularCtrl', function () {
+describe('PopularCtrl', function () {
 
   // load the controller's module
   beforeEach(module('cineAngularApp'));
 
-  var PopularCtrl,
-    scope;
+  var controller, serviceAjax;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
-    scope = $rootScope.$new();
-    PopularCtrl = $controller('PopularCtrl', {
-      $scope: scope
-      // place here mocked dependencies
-    });
+  beforeEach(inject(function ($controller, _serviceAjax_) {
+    serviceAjax = _serviceAjax_;
+    controller = $controller('PopularCtrl', {
+        'serviceAjax': serviceAjax
+      });
   }));
-
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(PopularCtrl.awesomeThings.length).toBe(3);
+  it('gets total_pages', function () {
+    spyOn(serviceAjax, 'popular').and.callFake(function () {
+      return {
+        success: function (callback) {
+          callback({ results: [{}],
+            total_pages: 10
+          });
+        }
+      };
+    });
+    controller.loadMovies();
+    expect(controller.totalPages).toEqual(10);
+  });
+  it('calls loadMovies upon page change', function() {
+    spyOn(controller, 'loadMovies');
+    controller.pageChanged();
+    expect(controller.loadMovies).toHaveBeenCalled();
   });
 });
