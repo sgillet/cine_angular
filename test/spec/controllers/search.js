@@ -6,18 +6,34 @@ describe('Controller: SearchCtrl', function () {
   beforeEach(module('cineAngularApp'));
 
   var SearchCtrl,
-    scope;
+      serviceAjax;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
-    scope = $rootScope.$new();
+  beforeEach(inject(function ($controller, _serviceAjax_) {
+    serviceAjax = _serviceAjax_;
     SearchCtrl = $controller('SearchCtrl', {
-      $scope: scope
+      'serviceAjax' : serviceAjax
       // place here mocked dependencies
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(SearchCtrl.awesomeThings.length).toBe(3);
+  it('load movies', function () {
+    spyOn(serviceAjax, 'search').and.callFake(function() {
+      return {
+        'success' : function(callback) {
+          callback({  results : [{}], 
+                      total_pages : 10
+          });
+        }
+      };
+    });
+    SearchCtrl.loadMovies();
+    expect(SearchCtrl.movies).toEqual([{}]);
+    expect(SearchCtrl.totalPages).toEqual(10);
+  });
+  it('load movies upon page change', function() {
+    spyOn(SearchCtrl, 'loadMovies');
+    SearchCtrl.pageChanged();
+    expect(SearchCtrl.loadMovies).toHaveBeenCalled();
   });
 });

@@ -12,13 +12,14 @@ describe('Service: serviceAjax', function () {
     httpBackend = _$httpBackend_;
   }));
 
-  it('call the right api url', function () {
+  it('calls right api url for popular page', function () {
     serviceAjax.popular(1);
-
     httpBackend.expectGET('http://localhost:3000/popular?page=1').respond({});
-
-      httpBackend.flush();
-
+    httpBackend.flush();
   });
-
+  it('calls right api url for search page', function () {
+    serviceAjax.search('django', 1);
+    httpBackend.expectGET('http://localhost:3000/search?q=django&page=1').respond({});
+    httpBackend.flush();
+  });
 });

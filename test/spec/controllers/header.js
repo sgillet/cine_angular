@@ -6,18 +6,20 @@ describe('Controller: HeaderCtrl', function () {
   beforeEach(module('cineAngularApp'));
 
   var HeaderCtrl,
-    scope;
+    location;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
-    scope = $rootScope.$new();
+  beforeEach(inject(function ($controller, $location) {
+    location = $location;
     HeaderCtrl = $controller('HeaderCtrl', {
-      $scope: scope
-      // place here mocked dependencies
+      'location' : location
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(HeaderCtrl.awesomeThings.length).toBe(3);
+  it('should change location path upon search', function () {
+    spyOn(location, 'path');
+    HeaderCtrl.query = 'django';
+    HeaderCtrl.searchAction();
+    expect(location.path).toHaveBeenCalled();
   });
 });
