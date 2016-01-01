@@ -30,6 +30,11 @@ angular
         controller: 'PopularCtrl',
         controllerAs: 'popular'
       })
+      .when('/info/:id', {
+        templateUrl: 'views/info.html',
+        controller: 'InfoCtrl',
+        controllerAs: 'info'
+      })
       .otherwise({
         redirectTo: '/popular'
       });

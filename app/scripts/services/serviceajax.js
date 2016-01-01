@@ -15,6 +15,9 @@ angular.module('cineAngularApp')
     },
     popular: function(page){
       return $http.get("http://localhost:3000/popular?page=" + page);
+    },
+    info: function(id){
+      return $http.get('http://localhost:3000/info/' + id);
     }
   }
 });

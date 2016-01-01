@@ -22,4 +22,9 @@ describe('Service: serviceAjax', function () {
     httpBackend.expectGET('http://localhost:3000/search?q=django&page=1').respond({});
     httpBackend.flush();
   });
+  it('calls the right api url for info page', function() {
+    serviceAjax.info(1);
+    httpBackend.expectGET('http://localhost:3000/info/1').respond({});
+    httpBackend.flush();
+  });
 });
